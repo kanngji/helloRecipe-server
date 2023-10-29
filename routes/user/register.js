@@ -4,12 +4,13 @@ const db = require("../../lib/db");
 
 router.post("/", (req, res) => {
   const { id, password, name, email } = req.body;
-  const created_at = Date.now();
+  const created_at = new Date();
+  // const created_at = created_time.toISOString();
 
   // 회원가입 로직을 구현합니다
   // DB에 사용자 정보를 저장하고 응답을 클라이언트에게 보냅니다
   db.query(
-    "INSERT INTO user (user_id,user_password,user_name,user_email,crated_at) VALUES (?,?,?,?,?)",
+    "INSERT INTO user (user_id,user_password,user_name,user_email,created_at) VALUES (?,?,?,?,?)",
     [id, password, name, email, created_at],
     (err, results) => {
       if (err) {
