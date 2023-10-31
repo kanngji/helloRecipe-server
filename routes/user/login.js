@@ -8,7 +8,11 @@ router.post("/", (req, res) => {
   db.query(query, [id, password], (err, results) => {
     if (err) throw err;
     if (results.length > 0) {
-      res.status(200).json({ message: "Login successful" });
+      res.status(200).json({
+        message: "Login successful",
+        user_id: id,
+        user_password: password,
+      });
     } else {
       res.status(401).json({ message: "Invalid credentials" });
     }
