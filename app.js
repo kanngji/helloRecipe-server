@@ -9,14 +9,16 @@ const router = express.Router();
 
 // routes 연결
 const usersRoute = require("./routes/user/index.js");
+const boardsRoute = require("./routes/board/index.js");
 
 app.use(cors());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use("/", router);
-app.use("/user", usersRoute);
+app.use("/api", router);
+app.use("/api/user", usersRoute);
+app.use("/api/board", boardsRoute);
 
 db.connect();
 app.listen(port, () => {
