@@ -15,14 +15,30 @@ router.get("/", (req, res) => {
         message: "게시글 목록 불러오기 완료 되었습니다.",
         posts: results,
       });
+    }
+  });
+});
+// 게시글 하나에 대한 정보
+router.get("/:id", (req, res) => {
+  const postId = req.params.id; // URL에서 동적 매개변수로부터 게시글 ID 추출
 
-      // db.end((endErr) => {
-      //   if (endErr) {
-      //     console.error("MySQL 연결 종료 오류: " + endErr.message);
-      //   } else {
-      //     console.log("Mysql 연결 종료");
-      //   }
-      // });
+  db.query("SELECT * FROM BOARD WHERE id = ?", [postId], (err, results) => {
+    if (err) {
+      console.error("게시글 불러오기 오류: " + err.message);
+      res
+        .status(500)
+        .json({ error: "게시글 불러오는 중 오류가 발생했습니다." });
+    } else {
+      if (results.length > 0) {
+        console.log("게시글 불러오기 성공");
+        res.status(200).json({
+          message: "게시글 불러오기 완료 되었습니다.",
+          post: results[0], // 결과는 배열로 반환되므로 첫 번째 요소를 반환
+        });
+      } else {
+        console.log("게시글을 찾을 수 없음");
+        res.status(404).json({ error: "게시글을 찾을 수 없습니다." });
+      }
     }
   });
 });
